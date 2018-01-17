@@ -114,6 +114,12 @@ namespace Anti_Logger
                         dumpList.Add("Sir Cookie");
                         dumpList.Add("Cookie Venom");
                         break;
+                        case "RedirectStandardOutput":
+                            dumpList.Add("QuasarRAT");
+                            break;
+                        case "GetWindowText":
+                            dumpList.Add("njRAT");
+                            break;
                 }
             return dumpList;
         }
