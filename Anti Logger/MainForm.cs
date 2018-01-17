@@ -46,7 +46,7 @@ namespace Anti_Logger
 
                 if (assemblyFile.Length != 1)
                 {
-                    Status_LABEL.Text = "Status: One file is only allowed per extract.";
+                    Status_LABEL.Text = "Status: One file is only allowed per process.";
                 }
                 else
                 {
