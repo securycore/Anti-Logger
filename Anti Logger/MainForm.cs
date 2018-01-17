@@ -56,7 +56,6 @@ namespace Anti_Logger
                     var assembly = ModuleDefMD.Load(assemblyFile[0]);
 
                     GetStrings(assembly);
-                    Thread.Sleep(2000);
                     GetMethods(assembly);
 
                     var form = new PossbilitiesForm(DumpAllMethods(assembly), DumpAllStrings(assembly));
