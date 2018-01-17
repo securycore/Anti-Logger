@@ -1,5 +1,5 @@
 # Anti-Logger
-In efforts to stop cookie loggers (mainly ROBLOX).
+In efforts to stop malware to a point.
 
 
 ## Request
