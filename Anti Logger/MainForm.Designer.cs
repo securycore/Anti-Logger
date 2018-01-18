@@ -41,7 +41,7 @@
             this.DragNDrop_PANEL.Controls.Add(this.DragNDrop_LABEL);
             this.DragNDrop_PANEL.Location = new System.Drawing.Point(12, 12);
             this.DragNDrop_PANEL.Name = "DragNDrop_PANEL";
-            this.DragNDrop_PANEL.Size = new System.Drawing.Size(392, 152);
+            this.DragNDrop_PANEL.Size = new System.Drawing.Size(495, 152);
             this.DragNDrop_PANEL.TabIndex = 0;
             this.DragNDrop_PANEL.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragNDrop_PANEL_DragDrop);
             this.DragNDrop_PANEL.DragEnter += new System.Windows.Forms.DragEventHandler(this.DragNDrop_PANEL_DragEnter);
@@ -51,7 +51,7 @@
             // DragNDrop_LABEL
             // 
             this.DragNDrop_LABEL.AutoSize = true;
-            this.DragNDrop_LABEL.Location = new System.Drawing.Point(77, 70);
+            this.DragNDrop_LABEL.Location = new System.Drawing.Point(128, 70);
             this.DragNDrop_LABEL.Name = "DragNDrop_LABEL";
             this.DragNDrop_LABEL.Size = new System.Drawing.Size(239, 13);
             this.DragNDrop_LABEL.TabIndex = 0;
@@ -70,7 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 190);
+            this.ClientSize = new System.Drawing.Size(519, 190);
             this.Controls.Add(this.Status_LABEL);
             this.Controls.Add(this.DragNDrop_PANEL);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

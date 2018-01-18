@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Anti_Logger
 {
     public partial class PossbilitiesForm : Form
     {
-        public PossbilitiesForm(IEnumerable<string> possbilities, IEnumerable<string> strings)
+        public PossbilitiesForm(IEnumerable<string> possbilities, IEnumerable<string> strings,
+            IEnumerable<string> keywords)
         {
             InitializeComponent();
 
-            listPossbilities.DataSource = possbilities;
+            var totalPossiblities = new List<string>();
+
+            foreach (var possbility in possbilities)
+                totalPossiblities.Add(possbility);
+
+            foreach (var keyword in keywords)
+                totalPossiblities.Add(keyword);
+
+            listPossbilities.DataSource = totalPossiblities;
             listStrings.DataSource = strings;
         }
     }

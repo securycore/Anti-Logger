@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
@@ -58,7 +57,8 @@ namespace Anti_Logger
                     GetStrings(assembly);
                     GetMethods(assembly);
 
-                    var form = new PossbilitiesForm(DumpAllMethods(assembly), DumpAllStrings(assembly));
+                    var form = new PossbilitiesForm(DumpAllMethods(assembly), DumpAllStrings(assembly),
+                        StringKeywords(assembly));
                     form.ShowDialog();
 
                     DragNDrop_PANEL.Enabled = true;
@@ -81,7 +81,8 @@ namespace Anti_Logger
 
         private void GetMethods(ModuleDefMD assembly)
         {
-            Status_LABEL.Text = $"Status: Extracted methods. Found {DumpAllMethods(assembly).Count()} possiblities.";
+            Status_LABEL.Text =
+                $"Status: Extracted methods. Found {DumpAllMethods(assembly).Count()} possiblities and {StringKeywords(assembly).Count()} suspicious keywords.";
         }
 
         public IEnumerable<string> DumpAllStrings(ModuleDefMD mod)
@@ -113,13 +114,64 @@ namespace Anti_Logger
                         dumpList.Add("Sir Cookie");
                         dumpList.Add("Cookie Venom");
                         break;
-                        case "RedirectStandardOutput":
-                            dumpList.Add("QuasarRAT");
-                            break;
-                        case "GetWindowText":
-                            dumpList.Add("njRAT");
-                            break;
+                    case "RedirectStandardOutput":
+                        dumpList.Add("QuasarRAT");
+                        break;
+                    case "GetWindowText":
+                        dumpList.Add("Common RAT *");
+                        break;
+                    case "Sendb":
+                        dumpList.Add("njRAT");
+                        break;
+                    case "gatherticket":
+                        dumpList.Add("Cookie Muncher");
+                        break;
+                    case "GetAntiVirus":
+                        dumpList.Add("Predator Logger");
+                        break;
+                    case "DLrun":
+                        dumpList.Add("Vulcan Logger");
+                        break;
+                    case "mulai":
+                        dumpList.Add("NingaliNET");
+                        break;
+                    case "get_BuilderSettings":
+                        dumpList.Add("NanoCore");
+                        break;
+                    case "maine":
+                        dumpList.Add("Comet RAT");
+                        break;
+                    case "CIVC":
+                        dumpList.Add("Revenge RAT");
+                        break;
                 }
+            return dumpList;
+        }
+
+        public IEnumerable<string> StringKeywords(ModuleDefMD mod)
+        {
+            string[] badKeywords =
+            {
+                "WebBrowserPassView.exe"
+            };
+
+            var dumpList = new List<string>();
+            foreach (var td in mod.GetTypes())
+            foreach (var mDef in td.Methods)
+                if (mDef.HasBody)
+                    foreach (var instru in mDef.Body.Instructions)
+                        if (Equals(instru.OpCode, OpCodes.Ldstr))
+                        {
+                            var currentInt = 0;
+                            if (instru.ToString().Contains(badKeywords[currentInt++]))
+                            {
+                                dumpList.Add("NirSoft Malware");
+                                dumpList.Add("XStealer");
+                                break;
+                            }
+                        }
+
+
             return dumpList;
         }
 
