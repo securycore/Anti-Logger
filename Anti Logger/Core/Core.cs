@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
 
@@ -26,7 +27,7 @@ namespace Anti_Logger.Core
 
             foreach (var types in assembly.GetTypes())
             foreach (var methods in types.Methods)
-                    switch (methods.Name)
+                switch (methods.Name)
                 {
                     case "SendLinks":
                         methodList.Add("browserLoot");
@@ -70,34 +71,38 @@ namespace Anti_Logger.Core
                     case "RecoverCookies":
                         methodList.Add("rbxWorkshop");
                         break;
+                    default:
+                        break;
                 }
 
             return methodList;
         }
 
-        //public IEnumerable<string> GetKeywords(ModuleDefMD mod)
-        //{
-        //    string[] badKeywords =
-        //    {
-        //        "powershell Add-MpPreference -ExclusionPath",
-        //        "WebBrowserPassView.exe"
-        //    };
+        public IEnumerable<string> GetKeywords(ModuleDefMD mod)
+        {
+            var keywordsList = new List<string>();
 
-        //    var dumpList = new List<string>();
-        //    foreach (var td in mod.GetTypes())
-        //        foreach (var mDef in td.Methods)
-        //            if (mDef.HasBody)
-        //                foreach (var instru in mDef.Body.Instructions)
-        //                    if (Equals(instru.OpCode, OpCodes.Ldstr))
-        //                        foreach (var badKeyword in badKeywords)
-        //                            if (instru.ToString().Contains(badKeyword))
-        //                            {
-        //                                dumpList.Add("NirSoft Malware");
-        //                                dumpList.Add("XStealer");
-        //                                dumpList.Add("Windows Defender Disabler");
-        //                                break;
-        //                            }
+            string[] badKeywords =
+            {
+                "powershell Add-MpPreference -ExclusionPath",
+                "WebBrowserPassView.exe"
+            };
 
-        //    return dumpList;
+            foreach (var td in mod.GetTypes())
+            foreach (var mDef in td.Methods)
+                if (mDef.HasBody)
+                    foreach (var instru in mDef.Body.Instructions)
+                        if (Equals(instru.OpCode, OpCodes.Ldstr))
+                            foreach (var badKeyword in badKeywords)
+                                if (instru.ToString().Contains(badKeyword))
+                                {
+                                    keywordsList.Add("NirSoft Malware");
+                                    keywordsList.Add("XStealer");
+                                    keywordsList.Add("Windows Defender Disabler");
+                                    break;
+                                }
+
+            return keywordsList.Distinct().ToList();
+        }
     }
 }
