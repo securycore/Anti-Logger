@@ -21,5 +21,25 @@ namespace Anti_Logger
             listPossbilities.DataSource = totalPossiblities;
             listStrings.DataSource = strings;
         }
+
+        #region " Menu Strip "
+
+        private void contextStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = listPossbilities.SelectedItems.Count <= 0 || listPossbilities.SelectedItems.Count <= 0;
+        }
+
+
+        private void copyToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            if (listPossbilities.Focused)
+                Clipboard.SetText(listPossbilities.Text);
+
+            if (listStrings.Focused)
+                Clipboard.SetText(listStrings.Text);
+        }
+
+        #endregion
+
     }
 }
