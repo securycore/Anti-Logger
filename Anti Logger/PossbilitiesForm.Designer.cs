@@ -28,20 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listPossbilities = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listStrings = new System.Windows.Forms.ListBox();
+            this.contextStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // listPossbilities
             // 
             this.listPossbilities.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listPossbilities.ContextMenuStrip = this.contextStrip;
             this.listPossbilities.FormattingEnabled = true;
             this.listPossbilities.Location = new System.Drawing.Point(14, 28);
             this.listPossbilities.Name = "listPossbilities";
-            this.listPossbilities.Size = new System.Drawing.Size(316, 95);
+            this.listPossbilities.Size = new System.Drawing.Size(499, 95);
             this.listPossbilities.TabIndex = 0;
             // 
             // label1
@@ -67,17 +70,23 @@
             this.listStrings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listStrings.ContextMenuStrip = this.contextStrip;
             this.listStrings.FormattingEnabled = true;
             this.listStrings.Location = new System.Drawing.Point(14, 157);
             this.listStrings.Name = "listStrings";
-            this.listStrings.Size = new System.Drawing.Size(316, 95);
+            this.listStrings.Size = new System.Drawing.Size(499, 95);
             this.listStrings.TabIndex = 3;
+            // 
+            // contextStrip
+            // 
+            this.contextStrip.Name = "contextStrip";
+            this.contextStrip.Size = new System.Drawing.Size(61, 4);
             // 
             // PossbilitiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(340, 265);
+            this.ClientSize = new System.Drawing.Size(523, 268);
             this.Controls.Add(this.listStrings);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -99,5 +108,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox listStrings;
+        private System.Windows.Forms.ContextMenuStrip contextStrip;
     }
 }
