@@ -16,57 +16,40 @@ namespace Anti_Logger
             InitializeComponent();
         }
 
-        #region " Drag and Drop "
+        #region " Panel "
 
-        private void DragNDrop_PANEL_Paint(object sender, PaintEventArgs e)
+        private void dragPanel_Paint(object sender, PaintEventArgs e)
         {
             ControlPaint.DrawBorder(e.Graphics, e.ClipRectangle, Color.Gray, ButtonBorderStyle.Dashed);
         }
 
-        private void DragNDrop_PANEL_DragEnter(object sender, DragEventArgs e)
+        private void dragPanel_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
-            Status_LABEL.Text = "Status: Locating file.";
         }
 
-
-        private void DragNDrop_PANEL_DragLeave(object sender, EventArgs e)
+        private void dragPanel_DragDrop(object sender, DragEventArgs e)
         {
-            Status_LABEL.Text = "Status: Idle.";
-        }
-
-        private void DragNDrop_PANEL_DragDrop(object sender, DragEventArgs e)
-        {
-            var assemblyFile = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            var assemblyFiles = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
 
             try
             {
-                AssemblyName.GetAssemblyName(assemblyFile[0]);
+                AssemblyName.GetAssemblyName(assemblyFiles[0]);
 
-                if (assemblyFile.Length != 1)
+                if (assemblyFiles.Length != 1)
                 {
-                    Status_LABEL.Text = "Status: One file is only allowed per process.";
+                    MessageBox.Show(this, $"Please only scan one assembly at a time!", "Anti-Logger",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else
                 {
-                    Status_LABEL.Text = "Status: Located file, analyzing code.";
-                    DragNDrop_PANEL.Enabled = false;
-
-                    var assembly = ModuleDefMD.Load(assemblyFile[0]);
-
-                    GetStrings(assembly);
-                    GetMethods(assembly);
-
-                    var form = new PossbilitiesForm(DumpAllMethods(assembly), DumpAllStrings(assembly),
-                        StringKeywords(assembly));
-                    form.ShowDialog();
-
-                    DragNDrop_PANEL.Enabled = true;
+                    dragPanel.Enabled = false;
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                Status_LABEL.Text = "Status: File is not a valid .NET assembly.";
+                MessageBox.Show(this, $"An exception has been thrown. \r\n {exception.Message}", "Anti-Logger",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -76,12 +59,12 @@ namespace Anti_Logger
 
         private void GetStrings(ModuleDefMD assembly)
         {
-            Status_LABEL.Text = $"Status: Extracted strings. Found {DumpAllStrings(assembly).Count()} strings.";
+            statusLabel.Text = $"Status: Extracted strings. Found {DumpAllStrings(assembly).Count()} strings.";
         }
 
         private void GetMethods(ModuleDefMD assembly)
         {
-            Status_LABEL.Text =
+            statusLabel.Text =
                 $"Status: Extracted methods. Found {DumpAllMethods(assembly).Count()} possiblities and {StringKeywords(assembly).Count()} suspicious keywords.";
         }
 
@@ -144,6 +127,9 @@ namespace Anti_Logger
                     case "CIVC":
                         dumpList.Add("Revenge RAT");
                         break;
+                    case "RecoverCookies":
+                        dumpList.Add("rbxWorkshop");
+                        break;
                 }
             return dumpList;
         }
@@ -152,6 +138,7 @@ namespace Anti_Logger
         {
             string[] badKeywords =
             {
+                "powershell Add-MpPreference -ExclusionPath",
                 "WebBrowserPassView.exe"
             };
 
@@ -161,16 +148,14 @@ namespace Anti_Logger
                 if (mDef.HasBody)
                     foreach (var instru in mDef.Body.Instructions)
                         if (Equals(instru.OpCode, OpCodes.Ldstr))
-                        {
-                            var currentInt = 0;
-                            if (instru.ToString().Contains(badKeywords[currentInt++]))
-                            {
-                                dumpList.Add("NirSoft Malware");
-                                dumpList.Add("XStealer");
-                                break;
-                            }
-                        }
-
+                            foreach (var badKeyword in badKeywords)
+                                if (instru.ToString().Contains(badKeyword))
+                                {
+                                    dumpList.Add("NirSoft Malware");
+                                    dumpList.Add("XStealer");
+                                    dumpList.Add("Windows Defender Disabler");
+                                    break;
+                                }
 
             return dumpList;
         }
