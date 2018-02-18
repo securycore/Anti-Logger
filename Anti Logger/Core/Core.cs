@@ -6,69 +6,73 @@ namespace Anti_Logger.Core
 {
     internal class Core
     {
-        public IEnumerable<string> GetStrings(ModuleDefMD mod)
+        public IEnumerable<string> GetStrings(ModuleDefMD assembly)
         {
-            var dumpList = new List<string>();
-            foreach (var td in mod.GetTypes())
-            foreach (var mDef in td.Methods)
-                if (mDef.HasBody)
-                    foreach (var instru in mDef.Body.Instructions)
+            var stringList = new List<string>();
+
+            foreach (var types in assembly.GetTypes())
+            foreach (var methods in types.Methods)
+                if (methods.HasBody)
+                    foreach (var instru in methods.Body.Instructions)
                         if (Equals(instru.OpCode, OpCodes.Ldstr))
-                            dumpList.Add(instru.ToString());
-            return dumpList;
+                            stringList.Add(instru.ToString());
+
+            return stringList;
         }
 
-        public IEnumerable<string> GetMethods(ModuleDefMD mod)
+        public IEnumerable<string> GetMethods(ModuleDefMD assembly)
         {
-            var dumpList = new List<string>();
-            foreach (var td in mod.GetTypes())
-            foreach (var mDef in td.Methods)
-                switch (mDef.Name)
+            var methodList = new List<string>();
+
+            foreach (var types in assembly.GetTypes())
+            foreach (var methods in types.Methods)
+                    switch (methods.Name)
                 {
                     case "SendLinks":
-                        dumpList.Add("browserLoot");
+                        methodList.Add("browserLoot");
                         break;
                     case "RunInstallationLogic":
-                        dumpList.Add("Cookie Ghost");
+                        methodList.Add("Cookie Ghost");
                         break;
                     case "IRAGC":
-                        dumpList.Add("Cookie Venom");
+                        methodList.Add("Cookie Venom");
                         break;
                     case "RedirectStandardOutput":
-                        dumpList.Add("QuasarRAT");
+                        methodList.Add("QuasarRAT");
                         break;
                     case "GetWindowText":
-                        dumpList.Add("Common RAT *");
+                        methodList.Add("Common RAT *");
                         break;
                     case "Sendb":
-                        dumpList.Add("njRAT");
+                        methodList.Add("njRAT");
                         break;
                     case "gatherticket":
-                        dumpList.Add("Cookie Muncher");
+                        methodList.Add("Cookie Muncher");
                         break;
                     case "GetAntiVirus":
-                        dumpList.Add("Predator Logger");
+                        methodList.Add("Predator Logger");
                         break;
                     case "DLrun":
-                        dumpList.Add("Vulcan Logger");
+                        methodList.Add("Vulcan Logger");
                         break;
                     case "mulai":
-                        dumpList.Add("NingaliNET");
+                        methodList.Add("NingaliNET");
                         break;
                     case "get_BuilderSettings":
-                        dumpList.Add("NanoCore");
+                        methodList.Add("NanoCore");
                         break;
                     case "maine":
-                        dumpList.Add("Comet RAT");
+                        methodList.Add("Comet RAT");
                         break;
                     case "CIVC":
-                        dumpList.Add("Revenge RAT");
+                        methodList.Add("Revenge RAT");
                         break;
                     case "RecoverCookies":
-                        dumpList.Add("rbxWorkshop");
+                        methodList.Add("rbxWorkshop");
                         break;
                 }
-            return dumpList;
+
+            return methodList;
         }
 
         //public IEnumerable<string> GetKeywords(ModuleDefMD mod)
